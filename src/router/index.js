@@ -1,15 +1,27 @@
+import { createRouter, createWebHistory } from 'vue-router'
 
-/**
- * router/index.ts
- *
- * Automatic routes for `./src/pages/*.vue`
- */
-
-// Composables
-import { createRouter, createWebHistory } from 'vue-router/auto'
+// Import the components for the login and register pages
+import Login from '@/components/Login.vue'
+import Register from '@/components/Register.vue'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(),
+  routes: [
+    {
+      path: '/',
+      redirect: '/login' // Redirect '/' to '/login'
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
+    },
+    {
+      path: '/register',
+      name: 'Register',
+      component: Register
+    }
+  ]
 })
 
 export default router

@@ -30,8 +30,28 @@
   </v-container>
 </template>
 
-<script setup>
+<script>
+import { mapState } from 'vuex';
 
+export default{
+  data(){
+    return{
+
+    }
+  },
+  methods:{
+
+  },
+  computed:{
+    ...mapState({
+      categories: (state) => state.categories
+    })
+  },
+  mounted() {
+    console.log('Categories ; ' , this.categories);
+  },
+
+}
 </script>
 
 <style scoped>

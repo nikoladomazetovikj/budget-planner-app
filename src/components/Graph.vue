@@ -27,7 +27,7 @@ export default {
         labels: [],
         datasets: [
           {
-            label: 'Expense',
+            label: 'Incomes',
             backgroundColor: '#f87979',
             data: []
           }
@@ -50,7 +50,7 @@ export default {
   methods: {
     updateChartData(items) {
       const labels = items.map(item => item.name);
-      const expenseData = items.map(item => item.Expense);
+      const expenseData = items.map(item => item.Incomes);
 
       this.chartData.labels = labels;
       this.chartData.datasets[0].data = expenseData;

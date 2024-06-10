@@ -7,28 +7,29 @@
       <v-icon class="mt-n1">mdi-account</v-icon>
       <h3>Hello User, Leo</h3>
     </div>
-    <div class="ml-3">Monthly Expenses</div>
+    <div class="ml-3 font-weight-bold">Daily Expenses</div>
 <v-row>
   <v-col cols="6">
-    <v-data-table height="500" :items="items" style="cursor:pointer">
+    <v-data-table height="500" :items="Incomes" style="cursor:pointer">
       <template v-slot:item="{ item }">
         <tr>
           <td>{{ item.name }}</td>
           <td>{{ item.Description }}</td>
           <td>{{ item.ExpenseType }}</td>
-          <td>{{ item.Expense }}</td>
+          <td>{{ item.Incomes }}</td>
         </tr>
       </template>
     </v-data-table>
   </v-col>
   <v-col cols="6">
-    <graph :items="items"></graph>
+    <graph :items="Incomes"></graph>
   </v-col>
+  <div class="ml-6 font-weight-bold">Monthly Expenses</div>
 </v-row>
 
     <v-row>
       <v-col cols="6">
-        <v-data-table  height="400" :items="items" style="cursor:pointer">
+        <v-data-table  height="400" :items="Expenses" style="cursor:pointer">
           <template v-slot:item="{ item }">
             <tr>
               <td>{{ item.name }}</td>
@@ -41,7 +42,7 @@
       </v-col>
       <v-col cols="6">
         <div style="margin-left:100px;">
-          <pie :items="items"></pie>
+          <pie :items="Expenses"></pie>
         </div>
 
       </v-col>
@@ -63,13 +64,21 @@ export default {
   },
   data() {
     return {
-      items: [
+      Expenses: [
         { name: 'Event 1', Description: 'Description 1', ExpenseType: 'Food', Expense: 300 },
         { name: 'Event 2', Description: 'Description 2', ExpenseType: 'Travel', Expense: 200 },
         { name: 'Event 3', Description: 'Description 3', ExpenseType: 'Rent', Expense: 500 },
         { name: 'Event 4', Description: 'Description 4', ExpenseType: 'Utilities', Expense: 150 },
         { name: 'Event 5', Description: 'Description 5', ExpenseType: 'Entertainment', Expense: 400 },
         { name: 'Event 6', Description: 'Description 6', ExpenseType: 'Miscellaneous', Expense: 250 }
+      ],
+      Incomes: [
+        { name: 'Event 1', Description: 'Description 1', ExpenseType: 'Food', Incomes: 300 },
+        { name: 'Event 2', Description: 'Description 2', ExpenseType: 'Travel', Incomes: 200 },
+        { name: 'Event 3', Description: 'Description 3', ExpenseType: 'Rent', Incomes: 500 },
+        { name: 'Event 4', Description: 'Description 4', ExpenseType: 'Utilities', Incomes: 150 },
+        { name: 'Event 5', Description: 'Description 5', ExpenseType: 'Entertainment', Incomes: 400 },
+        { name: 'Event 6', Description: 'Description 6', ExpenseType: 'Miscellaneous', Incomes: 250 }
       ]
     }
   },

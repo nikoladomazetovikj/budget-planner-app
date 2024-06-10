@@ -16,7 +16,7 @@ const store = createStore({
   },
   actions: {
     updateScreenHeight({ commit }) {
-      commit('SET_SCREEN_HEIGHT', window.innerHeight - 200);
+      commit('SET_SCREEN_HEIGHT', window.innerHeight - 800);
     }
   },
   getters: {

@@ -1,10 +1,31 @@
 <template>
   <v-app>
-    <v-main>
       <router-view />
-<!--        <Login></Login>-->
-<!--      <Signin></Signin>-->
-    </v-main>
+      <v-app-bar :elevation="2" rounded>
+        <template v-slot:prepend>
+          <v-app-bar-nav-icon></v-app-bar-nav-icon>
+        </template>
+
+        <v-app-bar-title style="font-size:16px;">Budget Planner 1.0</v-app-bar-title>
+
+        <!-- Adding links to the app bar -->
+        <v-spacer></v-spacer>
+        <router-link to="/dashboard">
+          <v-btn color="black">Home</v-btn>
+        </router-link>
+        <router-link to="/expenses">
+          <v-btn color="black">Expenses</v-btn>
+        </router-link>
+        <router-link to="/manageExpenses">
+          <v-btn color="black">Manage Expenses</v-btn>
+        </router-link>
+        <router-link to="/income">
+          <v-btn color="black">Income</v-btn>
+        </router-link>
+        <router-link to="/settings">
+          <v-btn color="black">Settings</v-btn>
+        </router-link>
+      </v-app-bar>
   </v-app>
 </template>
 

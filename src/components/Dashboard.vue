@@ -1,101 +1,75 @@
 <template>
-  <v-card>
-    <v-layout>
-      <v-app-bar :elevation="2" rounded>
-        <template v-slot:prepend>
-          <v-app-bar-nav-icon></v-app-bar-nav-icon>
-        </template>
-
-        <v-app-bar-title style="font-size:16px;">Budget Planner 1.0</v-app-bar-title>
-
-        <!-- Adding links to the app bar -->
-        <v-spacer></v-spacer>
-        <router-link to="/dashboard">
-          <v-btn color="black">Home</v-btn>
-        </router-link>
-        <router-link to="/expenses">
-          <v-btn color="black">Expenses</v-btn>
-        </router-link>
-        <router-link to="/manageExpenses">
-          <v-btn color="black">Manage Expenses</v-btn>
-        </router-link>
-        <router-link to="/income">
-          <v-btn color="black">Income</v-btn>
-        </router-link>
-        <router-link to="/settings">
-          <v-btn color="black">Settings</v-btn>
-        </router-link>
-      </v-app-bar>
-
-      <v-main>
-      </v-main>
-    </v-layout>
+  <v-card class="mt-16">
+    <!-- App Bar code is commented out -->
   </v-card>
-  <div style="width:95%; margin:auto; padding:20px;">
-    <div class="d-flex align-center">
+  <div class="pa-10">
+    <div class="d-flex align-center ml-3">
       <v-icon class="mt-n1">mdi-account</v-icon>
       <h3>Hello User, Leo</h3>
-      <div></div>
     </div>
-    <div>Monthly Expenses</div>
-
-    <v-data-table :height="pageHeight" :items="items" style="cursor:pointer">
+    <div class="ml-3">Monthly Expenses</div>
+<v-row>
+  <v-col cols="6">
+    <v-data-table height="500" :items="items" style="cursor:pointer">
       <template v-slot:item="{ item }">
         <tr>
           <td>{{ item.name }}</td>
           <td>{{ item.Description }}</td>
           <td>{{ item.ExpenseType }}</td>
-          <td>{{ item.Income }}</td>
+          <td>{{ item.Expense }}</td>
         </tr>
       </template>
     </v-data-table>
+  </v-col>
+  <v-col cols="6">
+    <graph :items="items"></graph>
+  </v-col>
+</v-row>
+
+    <v-row>
+      <v-col cols="6">
+        <v-data-table  height="400" :items="items" style="cursor:pointer">
+          <template v-slot:item="{ item }">
+            <tr>
+              <td>{{ item.name }}</td>
+              <td>{{ item.Description }}</td>
+              <td>{{ item.ExpenseType }}</td>
+              <td>{{ item.Expense }}</td>
+            </tr>
+          </template>
+        </v-data-table>
+      </v-col>
+      <v-col cols="6">
+        <div style="margin-left:100px;">
+          <pie :items="items"></pie>
+        </div>
+
+      </v-col>
+    </v-row>
+
   </div>
 </template>
 
 <script>
 import { mapGetters, mapState } from "vuex";
+import Graph from './Graph.vue';
+import Pie from "@/components/Pie.vue";
 
 export default {
   name: 'BudgetPlanner',
+  components: {
+    Pie,
+    Graph
+  },
   data() {
     return {
       items: [
-        {
-          name: 'SEEU - Ceremony',
-          Description: 'Description Example',
-          ExpenseType: 'ExpenseType Example',
-          Income: 'Income Example',
-        },
-        {
-          name: 'SEEU - Ceremony',
-          Description: 'Description Example',
-          ExpenseType: 'ExpenseType Example',
-          Income: 'Income Example',
-        },
-        {
-          name: 'SEEU - Ceremony',
-          Description: 'Description Example',
-          ExpenseType: 'ExpenseType Example',
-          Income: 'Income Example',
-        },
-        {
-          name: 'SEEU - Ceremony',
-          Description: 'Description Example',
-          ExpenseType: 'ExpenseType Example',
-          Income: 'Income Example',
-        },
-        {
-          name: 'SEEU - Ceremony',
-          Description: 'Description Example',
-          ExpenseType: 'ExpenseType Example',
-          Income: 'Income Example',
-        },
-        {
-          name: 'SEEU - Ceremony',
-          Description: 'Description Example',
-          ExpenseType: 'ExpenseType Example',
-          Income: 'Income Example',
-        },
+        { name: 'Event 1', Description: 'Description 1', ExpenseType: 'Food', Expense: 300 },
+        { name: 'Event 2', Description: 'Description 2', ExpenseType: 'Travel', Expense: 200 },
+        { name: 'Event 3', Description: 'Description 3', ExpenseType: 'Rent', Expense: 500 },
+        { name: 'Event 4', Description: 'Description 4', ExpenseType: 'Utilities', Expense: 150 },
+        { name: 'Event 5', Description: 'Description 5', ExpenseType: 'Entertainment', Expense: 400 },
+        { name: 'Event 6', Description: 'Description 6', ExpenseType: 'Miscellaneous', Expense: 250 }
       ]
     }
   },

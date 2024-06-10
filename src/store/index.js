@@ -1,18 +1,32 @@
-import {createStore} from 'vuex'
+import { createStore } from 'vuex'
 
 const store = createStore({
-  state:{
-    categories:10
+  state: {
+    categories: 10,
+    screenHeight: window.innerHeight - 200,
+    pageSize: { height: 1000, width: 500 }
   },
-  mutations:{
-    GET_CATEGORIES (state, payload) {
+  mutations: {
+    GET_CATEGORIES(state, payload) {
       state.categories = payload;
     },
-  },
-  getters:{
-    appName(state){
-      return state.appName
+    SET_SCREEN_HEIGHT(state, height) {
+      state.screenHeight = height;
     }
+  },
+  actions: {
+    updateScreenHeight({ commit }) {
+      commit('SET_SCREEN_HEIGHT', window.innerHeight - 200);
+    }
+  },
+  getters: {
+    appName(state) {
+      return state.appName;
+    },
+    pageHeight: (state) => {
+      return state.screenHeight + 'px';
+    },
   }
-})
-export default store
+});
+
+export default store;

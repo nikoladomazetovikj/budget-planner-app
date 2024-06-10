@@ -31,41 +31,96 @@
       </v-main>
     </v-layout>
   </v-card>
-<div style="width:95%; margin:auto; padding:20px;">
-  <div class="d-flex align-center">
-    <v-icon class="mt-n1">mdi-account</v-icon>
-    <h3>Hello User , Leo</h3>
-    <div></div>
+  <div style="width:95%; margin:auto; padding:20px;">
+    <div class="d-flex align-center">
+      <v-icon class="mt-n1">mdi-account</v-icon>
+      <h3>Hello User, Leo</h3>
+      <div></div>
+    </div>
+    <div>Monthly Expenses</div>
+
+    <v-data-table :height="pageHeight" :items="items" style="cursor:pointer">
+      <template v-slot:item="{ item }">
+        <tr>
+          <td>{{ item.name }}</td>
+          <td>{{ item.Description }}</td>
+          <td>{{ item.ExpenseType }}</td>
+          <td>{{ item.Income }}</td>
+        </tr>
+      </template>
+    </v-data-table>
   </div>
-  <div>Here are going to be The Expenses</div>
-
-  <v-data-table  :items="data" hide-default-header>
-  <template v-slot:item="{item}">
-    <tr>
-      <td>{{item}}</td>
-    </tr>
-  </template>
-  </v-data-table>
-
-</div>
 </template>
 
 <script>
+import { mapGetters, mapState } from "vuex";
+
 export default {
   name: 'BudgetPlanner',
-  data(){
-    return{
-      data:["Home","Car","Electricity","Vacation"]
+  data() {
+    return {
+      items: [
+        {
+          name: 'SEEU - Ceremony',
+          Description: 'Description Example',
+          ExpenseType: 'ExpenseType Example',
+          Income: 'Income Example',
+        },
+        {
+          name: 'SEEU - Ceremony',
+          Description: 'Description Example',
+          ExpenseType: 'ExpenseType Example',
+          Income: 'Income Example',
+        },
+        {
+          name: 'SEEU - Ceremony',
+          Description: 'Description Example',
+          ExpenseType: 'ExpenseType Example',
+          Income: 'Income Example',
+        },
+        {
+          name: 'SEEU - Ceremony',
+          Description: 'Description Example',
+          ExpenseType: 'ExpenseType Example',
+          Income: 'Income Example',
+        },
+        {
+          name: 'SEEU - Ceremony',
+          Description: 'Description Example',
+          ExpenseType: 'ExpenseType Example',
+          Income: 'Income Example',
+        },
+        {
+          name: 'SEEU - Ceremony',
+          Description: 'Description Example',
+          ExpenseType: 'ExpenseType Example',
+          Income: 'Income Example',
+        },
+      ]
     }
   },
-  methods:{
-
+  computed: {
+    ...mapState({
+      categories: state => state.categories
+    }),
+    ...mapGetters({
+      pageHeight: 'pageHeight'
+    }),
   },
-  computed:{
-
+  methods: {
+    updateScreenHeight() {
+      this.$store.dispatch('updateScreenHeight');
+    }
   },
+  created() {
+    window.addEventListener('resize', this.updateScreenHeight);
+    this.updateScreenHeight(); // Set initial height
+  },
+  beforeUnmount() {
+    window.removeEventListener('resize', this.updateScreenHeight);
+  },
+  mounted() {
+    console.log('page :  ', this.pageHeight);
+  }
 };
 </script>
-
-<style scoped>
-</style>

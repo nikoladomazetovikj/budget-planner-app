@@ -1,7 +1,7 @@
 <template>
   <v-app>
       <router-view />
-      <v-app-bar :elevation="2" rounded>
+      <v-app-bar v-if="$route.path !=='/register' && $route.path !=='/login'" :elevation="2" rounded>
         <template v-slot:prepend>
           <v-app-bar-nav-icon></v-app-bar-nav-icon>
         </template>
@@ -16,9 +16,9 @@
         <router-link to="/expenses">
           <v-btn color="black">Expenses</v-btn>
         </router-link>
-        <router-link to="/manageExpenses">
-          <v-btn color="black">Manage Expenses</v-btn>
-        </router-link>
+<!--        <router-link to="/manageExpenses">-->
+<!--          <v-btn color="black">Manage Expenses</v-btn>-->
+<!--        </router-link>-->
         <router-link to="/income">
           <v-btn color="black">Income</v-btn>
         </router-link>

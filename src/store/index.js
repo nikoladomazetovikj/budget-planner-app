@@ -42,6 +42,21 @@ const store = createStore({
         return { success: false, message: error.message };
       }
     },
+    async login({ commit }, userData) {
+      try {
+        const response = await axios.post('https://localhost:44333/api/Account/login', userData);
+        if (response.data.message === "Logged in successfully") {
+          const { token, name: user } = response.data;
+          commit('SET_USER', user);
+          commit('SET_TOKEN', token);
+          return { success: true };
+        } else {
+          return { success: false, message: response.data.message };
+        }
+      } catch (error) {
+        return { success: false, message: error.message };
+      }
+    },
   },
   getters: {
     appName(state) {

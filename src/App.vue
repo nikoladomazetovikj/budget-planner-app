@@ -13,14 +13,8 @@
         <router-link to="/dashboard">
           <v-btn color="black">Home</v-btn>
         </router-link>
-        <router-link to="/expenses">
-          <v-btn color="black">Expenses</v-btn>
-        </router-link>
-<!--        <router-link to="/manageExpenses">-->
-<!--          <v-btn color="black">Manage Expenses</v-btn>-->
-<!--        </router-link>-->
-        <router-link to="/income">
-          <v-btn color="black">Income</v-btn>
+        <router-link to="/budget">
+          <v-btn color="black">Budget</v-btn>
         </router-link>
         <router-link to="/settings">
           <v-btn color="black">Settings</v-btn>

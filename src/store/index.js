@@ -9,6 +9,7 @@ const store = createStore({
     pageSize: { height: 1000, width: 500 },
     user: null,
     token: null,
+    userId: null,
     budgets: [],
     monthlyBudgets: []
   },
@@ -25,6 +26,9 @@ const store = createStore({
     SET_TOKEN(state, token) {
       state.token = token;
     },
+    SET_USER_ID(state, userId) {
+      state.userId = userId;
+    },
     SET_BUDGETS(state, budgets) {
       state.budgets = budgets;
     },
@@ -40,9 +44,10 @@ const store = createStore({
       try {
         const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/Account/register`, userData);
         if (response.data.status === "Success") {
-          const { token, name } = response.data;
+          const { token, name, userId } = response.data;
           commit('SET_USER', name);
           commit('SET_TOKEN', token);
+          commit('SET_USER_ID', userId);
           return { success: true };
         } else {
           return { success: false, message: response.data.message };
@@ -55,9 +60,10 @@ const store = createStore({
       try {
         const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/Account/login`, userData);
         if (response.data.message === "Logged in successfully") {
-          const { token, name } = response.data;
+          const { token, name, userId } = response.data;
           commit('SET_USER', name);
           commit('SET_TOKEN', token);
+          commit('SET_USER_ID', userId);
           return { success: true };
         } else {
           return { success: false, message: response.data.message };
@@ -68,6 +74,7 @@ const store = createStore({
     },
     logout({ commit }) {
       commit('SET_USER', null);
+      commit('SET_USER_ID', null);
       commit('SET_TOKEN', null);
     },
     async fetchBudgets({ commit, state }) {
@@ -111,6 +118,9 @@ const store = createStore({
     },
     userName: (state) => {
       return state.user;
+    },
+    userId: (state) => {
+      return state.userId;
     },
     budgets: (state) => {
       return state.budgets;

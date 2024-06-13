@@ -65,7 +65,7 @@ export default {
   },
   computed: {
     ...mapState({
-      userId: state => state.user.id,
+      userId: state => state.userId,
       token: state => state.token
     })
   },
@@ -115,7 +115,7 @@ export default {
         categoryId: null,
         typeId: null,
         price: 0,
-        userId: ''
+        userId: this.userId
       };
     }
   },

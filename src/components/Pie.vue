@@ -15,7 +15,7 @@ import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement } from 'chart.js'
 ChartJS.register(Title, Tooltip, Legend, ArcElement)
 
 export default {
-  name: 'Pie.vue',
+  name: 'PieChart',
   components: { Pie },
   props: {
     items: {
@@ -29,7 +29,7 @@ export default {
         labels: [],
         datasets: [
           {
-            label: 'Expense',
+            label: 'Expenses',
             backgroundColor: ['#f87979', '#7ac7e3', '#fcc468', '#ff6b6b', '#7fcdbb', '#fdc966'],
             data: []
           }
@@ -51,8 +51,9 @@ export default {
   },
   methods: {
     updateChartData(items) {
-      const labels = items.map(item => item.name);
-      const expenseData = items.map(item => item.Expense);
+      const expenseItems = items.filter(item => item.typeName === 'Expense');
+      const labels = expenseItems.map(item => item.name);
+      const expenseData = expenseItems.map(item => item.price);
 
       this.pieChartData.labels = labels;
       this.pieChartData.datasets[0].data = expenseData;
@@ -65,6 +66,6 @@ export default {
 .pie-chart-container {
   width: 1000px;
   max-width: 100%;
-  min-height:400px ;
+  min-height: 400px;
 }
 </style>

@@ -102,7 +102,7 @@ export default {
       await this.fetchBudgets();
       const startDate = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().split('T')[0];
       const endDate = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).toISOString().split('T')[0];
-      await this.fetchMonthlyBudgets({startDate, endDate});
+      await this.fetchMonthlyBudgets({ startDate, endDate });
     },
     async deleteBudget(id) {
       try {

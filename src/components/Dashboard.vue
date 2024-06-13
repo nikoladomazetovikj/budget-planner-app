@@ -14,9 +14,10 @@
           :headers="incomeHeaders"
           :items="incomes"
           class="elevation-1"
+          height="500"
         >
           <template v-slot:item.action="{ item }">
-            <v-btn color="red" @click="deleteBudget(item.id)">Delete</v-btn>
+            <v-btn color="red"  @click="deleteBudget(item.id)">Delete</v-btn>
           </template>
         </v-data-table>
       </v-col>
@@ -32,6 +33,7 @@
           :headers="expenseHeaders"
           :items="expenses"
           class="elevation-1"
+          height="500"
         >
           <template v-slot:item.action="{ item }">
             <v-btn color="red" @click="deleteBudget(item.id)">Delete</v-btn>
@@ -111,7 +113,7 @@ export default {
             Authorization: `Bearer ${this.$store.state.token}`
           }
         });
-        this.loadBudgets();
+        await this.loadBudgets();
       } catch (error) {
         console.error('Error deleting budget:', error);
       }

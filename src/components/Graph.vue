@@ -72,6 +72,6 @@ export default {
 
 <style scoped>
 #my-chart-id {
-  max-height: 400px; /* Adjust this value as needed */
+  max-height: 650px; /* Adjust this value as needed */
 }
 </style>

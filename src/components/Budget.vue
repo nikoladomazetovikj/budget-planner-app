@@ -8,8 +8,8 @@
       <h3 class="ml-2">Create Budget</h3>
     </div>
     <v-row>
-      <v-col cols="12">
-        <v-card height="600">
+      <v-col cols="12" class="d-flex align-center justify-center mt-16">
+        <v-card height="600" width="700">
           <v-card-title class="text-center">Create A Budget Data</v-card-title>
           <v-form @submit.prevent="saveIncome">
             <v-text-field v-model="income.name" variant="outlined" class="px-2" density="compact" label="Budget Name"></v-text-field>
@@ -35,7 +35,7 @@
               class="px-2"
               density="compact"
             ></v-select>
-            <v-btn type="submit" color="primary" class="float-right mt-4">Save</v-btn>
+            <v-btn type="submit" width="200"  color="primary" class="justify-center float-end">Save</v-btn>
           </v-form>
         </v-card>
       </v-col>
@@ -56,7 +56,7 @@ export default {
         onDate: new Date().toISOString(),
         categoryId: null,
         typeId: null,
-        price: 0,
+        price: null,
         userId: '',
       },
     };
@@ -119,3 +119,15 @@ export default {
   }
 };
 </script>
+<style>
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+</style>

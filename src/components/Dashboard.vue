@@ -16,7 +16,7 @@
           class="elevation-1"
         >
           <template v-slot:item.action="{ item }">
-            <v-btn color="red" @click="deleteBudget(item.$id)">Delete</v-btn>
+            <v-btn color="red" @click="deleteBudget(item.id)">Delete</v-btn>
           </template>
         </v-data-table>
       </v-col>
@@ -34,7 +34,7 @@
           class="elevation-1"
         >
           <template v-slot:item.action="{ item }">
-            <v-btn color="red" @click="deleteBudget(item.$id)">Delete</v-btn>
+            <v-btn color="red" @click="deleteBudget(item.id)">Delete</v-btn>
           </template>
         </v-data-table>
       </v-col>

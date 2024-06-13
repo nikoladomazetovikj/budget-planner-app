@@ -45,7 +45,7 @@
 
 <script>
 import axios from 'axios';
-import { mapState } from 'vuex';
+import {mapActions, mapState} from 'vuex';
 
 export default {
   data() {
@@ -70,6 +70,13 @@ export default {
     })
   },
   methods: {
+    ...mapActions(['fetchBudgets', 'fetchMonthlyBudgets', 'updateScreenHeight']),
+    async loadBudgets() {
+      await this.fetchBudgets();
+      const startDate = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().split('T')[0];
+      const endDate = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).toISOString().split('T')[0];
+      await this.fetchMonthlyBudgets({ startDate, endDate });
+    },
     async saveIncome() {
       try {
         this.income.categoryId = Number(this.income.categoryId);
@@ -80,6 +87,14 @@ export default {
           headers: {
             Authorization: `Bearer ${this.token}`
           }
+        });
+        this.$router.push('/dashboard').then(res=>{
+          this.loadBudgets().then( res=>{
+            console.log(res);
+            window.location.reload();
+            }
+          );
+          console.log(res);
         });
         this.resetForm();
       } catch (error) {

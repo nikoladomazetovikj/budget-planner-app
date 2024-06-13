@@ -10,17 +10,14 @@
     <div class="ml-3 font-weight-bold">Monthly Incomes</div>
     <v-row>
       <v-col cols="6">
-        <v-data-table height="500" :items="incomes" style="cursor:pointer">
-          <template v-slot:item="{ item }">
-            <tr>
-              <td>{{ item.name }}</td>
-              <td>{{ item.description }}</td>
-              <td>{{ item.categoryName }}</td>
-              <td>{{ item.typeName }}</td>
-              <td>
-                <v-btn color="red" @click="deleteBudget(item.$id)">Delete</v-btn>
-              </td>
-            </tr>
+        <v-data-table
+          height="500"
+          :items="incomes"
+          :headers="incomeHeaders"
+          style="cursor:pointer"
+        >
+          <template v-slot:item.action="{ item }">
+            <v-btn color="red" @click="deleteBudget(item.$id)">Delete</v-btn>
           </template>
         </v-data-table>
       </v-col>
@@ -32,17 +29,14 @@
 
     <v-row>
       <v-col cols="6">
-        <v-data-table height="400" :items="expenses" style="cursor:pointer">
-          <template v-slot:item="{ item }">
-            <tr>
-              <td>{{ item.name }}</td>
-              <td>{{ item.description }}</td>
-              <td>{{ item.categoryName }}</td>
-              <td>{{ item.typeName }}</td>
-              <td>
-                <v-btn color="red" @click="deleteBudget(item.$id)">Delete</v-btn>
-              </td>
-            </tr>
+        <v-data-table
+          height="400"
+          :items="expenses"
+          :headers="expenseHeaders"
+          style="cursor:pointer"
+        >
+          <template v-slot:item.action="{ item }">
+            <v-btn color="red" @click="deleteBudget(item.$id)">Delete</v-btn>
           </template>
         </v-data-table>
       </v-col>
@@ -59,6 +53,7 @@
 import { mapGetters, mapState, mapActions } from "vuex";
 import Graph from './Graph.vue';
 import Pie from "@/components/Pie.vue";
+import axios from 'axios';
 
 export default {
   name: 'BudgetPlanner',
@@ -67,7 +62,22 @@ export default {
     Graph
   },
   data() {
-    return {};
+    return {
+      incomeHeaders: [
+        { text: 'Name', value: 'name', sortable: true},
+        { text: 'Description', value: 'description', sortable: true },
+        { text: 'Category', value: 'categoryName', sortable: true },
+        { text: 'Type', value: 'typeName' },
+        { text: 'Action', value: 'action', sortable: false }
+      ],
+      expenseHeaders: [
+        { text: 'Name', value: 'name', sortable: true },
+        { text: 'Description', value: 'description', sortable: true },
+        { text: 'Category', value: 'categoryName', sortable: true },
+        { text: 'Type', value: 'typeName' },
+        { text: 'Action', value: 'action', sortable: false }
+      ]
+    };
   },
   computed: {
     ...mapState({

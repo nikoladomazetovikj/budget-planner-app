@@ -1,5 +1,6 @@
 import { createStore } from 'vuex';
 import axios from 'axios';
+import createPersistedState from 'vuex-persistedstate';
 
 const store = createStore({
   state: {
@@ -8,9 +9,11 @@ const store = createStore({
     pageSize: { height: 1000, width: 500 },
     user: null,
     token: null,
+    budgets: [],
+    monthlyBudgets: []
   },
   mutations: {
-    GET_CATEGORIES(state, payload) {
+    SET_CATEGORIES(state, payload) {
       state.categories = payload;
     },
     SET_SCREEN_HEIGHT(state, height) {
@@ -22,6 +25,12 @@ const store = createStore({
     SET_TOKEN(state, token) {
       state.token = token;
     },
+    SET_BUDGETS(state, budgets) {
+      state.budgets = budgets;
+    },
+    SET_MONTHLY_BUDGETS(state, budgets) {
+      state.monthlyBudgets = budgets;
+    }
   },
   actions: {
     updateScreenHeight({ commit }) {
@@ -29,10 +38,10 @@ const store = createStore({
     },
     async register({ commit }, userData) {
       try {
-        const response = await axios.post('https://localhost:44333/api/Account/register', userData);
+        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/Account/register`, userData);
         if (response.data.status === "Success") {
-          const { token, name: user } = response.data;
-          commit('SET_USER', user);
+          const { token, name } = response.data;
+          commit('SET_USER', name);
           commit('SET_TOKEN', token);
           return { success: true };
         } else {
@@ -44,10 +53,10 @@ const store = createStore({
     },
     async login({ commit }, userData) {
       try {
-        const response = await axios.post('https://localhost:44333/api/Account/login', userData);
+        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/Account/login`, userData);
         if (response.data.message === "Logged in successfully") {
-          const { token, name: user } = response.data;
-          commit('SET_USER', user);
+          const { token, name } = response.data;
+          commit('SET_USER', name);
           commit('SET_TOKEN', token);
           return { success: true };
         } else {
@@ -57,6 +66,38 @@ const store = createStore({
         return { success: false, message: error.message };
       }
     },
+    logout({ commit }) {
+      commit('SET_USER', null);
+      commit('SET_TOKEN', null);
+    },
+    async fetchBudgets({ commit, state }) {
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/Budget`, {
+          headers: {
+            Authorization: `Bearer ${state.token}`
+          }
+        });
+        commit('SET_BUDGETS', response.data.budgets.$values);
+      } catch (error) {
+        console.error('Error fetching budgets:', error);
+      }
+    },
+    async fetchMonthlyBudgets({ commit, state }, { startDate, endDate }) {
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/Budget/filter/daterange`, {
+          params: {
+            startDate,
+            endDate
+          },
+          headers: {
+            Authorization: `Bearer ${state.token}`
+          }
+        });
+        commit('SET_MONTHLY_BUDGETS', response.data.budgets.$values);
+      } catch (error) {
+        console.error('Error fetching monthly budgets:', error);
+      }
+    }
   },
   getters: {
     appName(state) {
@@ -65,7 +106,20 @@ const store = createStore({
     pageHeight: (state) => {
       return state.screenHeight + 'px';
     },
+    isLoggedIn: (state) => {
+      return !!state.token;
+    },
+    userName: (state) => {
+      return state.user;
+    },
+    budgets: (state) => {
+      return state.budgets;
+    },
+    monthlyBudgets: (state) => {
+      return state.monthlyBudgets;
+    }
   },
+  plugins: [createPersistedState()],
 });
 
 export default store;

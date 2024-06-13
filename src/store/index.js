@@ -76,11 +76,26 @@ const store = createStore({
         return { success: false, message: error.message };
       }
     },
-    logout({ commit }) {
-      commit('SET_USER', null);
-      commit('SET_USER_ID', null);
-      commit('SET_TOKEN', null);
+    async logout({ commit }, userData) {
+      try {
+        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/Account/logout`, userData);
+        if (response.data.message === "Logged out successfully") {
+          commit('SET_USER', null);
+          commit('SET_TOKEN', null);
+          commit('SET_USER_ID', null);
+          return { success: true };
+        } else {
+          return { success: false, message: response.data.message };
+        }
+      } catch (error) {
+        return { success: false, message: error.message };
+      }
     },
+    // logout({ commit }) {
+    //   commit('SET_USER', null);
+    //   commit('SET_USER_ID', null);
+    //   commit('SET_TOKEN', null);
+    // },
     async fetchBudgets({ commit, state }) {
       try {
         const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/Budget`, {
@@ -152,7 +167,7 @@ const store = createStore({
       } catch (error) {
         console.error('Error fetching monthly budgets:', error);
       }
-    }
+    },
   },
   getters: {
     appName(state) {

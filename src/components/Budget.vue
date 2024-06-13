@@ -42,6 +42,7 @@
     </v-row>
   </div>
 </template>
+
 <script>
 import axios from 'axios';
 import { mapState } from 'vuex';
@@ -59,7 +60,6 @@ export default {
         userId: '',
       },
     };
-
   },
   computed: {
     ...mapState({
@@ -72,6 +72,9 @@ export default {
   methods: {
     async saveIncome() {
       try {
+        this.income.categoryId = Number(this.income.categoryId);
+        this.income.typeId = Number(this.income.typeId);
+        this.income.price = Number(this.income.price)
         this.income.userId = this.userId;
         await axios.post(`${import.meta.env.VITE_BASE_URL}/api/Budget`, this.income, {
           headers: {
@@ -96,12 +99,8 @@ export default {
     }
   },
   async mounted() {
-    await this.$store.dispatch('fetchTypes').then(res => {
-      console.log(res);
-    });
-    await this.$store.dispatch('fetchCategories').then(res => {
-      console.log(res);
-    });
+    await this.$store.dispatch('fetchTypes');
+    await this.$store.dispatch('fetchCategories');
   }
 };
 </script>

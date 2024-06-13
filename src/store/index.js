@@ -103,7 +103,7 @@ const store = createStore({
 
         if (response.data && response.data.types && response.data.types.$values) {
           const transformedTypes = response.data.types.$values.map(item => ({
-            id: item.$id,
+            id: item.id,
             name: item.name
           }));
           commit('SET_TYPES', transformedTypes);
@@ -125,7 +125,7 @@ const store = createStore({
 
         if (response.data && response.data.categories && response.data.categories.$values) {
           const transformedCategories = response.data.categories.$values.map(item => ({
-            id: item.$id,
+            id: item.id,
             name: item.name
           }));
           commit('SET_CATEGORIES', transformedCategories);

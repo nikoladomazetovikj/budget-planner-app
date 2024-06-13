@@ -4,7 +4,6 @@ import createPersistedState from 'vuex-persistedstate';
 
 const store = createStore({
   state: {
-    categories: 10,
     screenHeight: window.innerHeight - 200,
     pageSize: { height: 1000, width: 500 },
     user: null,
@@ -13,6 +12,7 @@ const store = createStore({
     budgets: [],
     monthlyBudgets: [],
     types:[],
+    categories: [],
   },
   mutations: {
     SET_CATEGORIES(state, payload) {
@@ -102,8 +102,34 @@ const store = createStore({
         });
 
         if (response.data && response.data.types && response.data.types.$values) {
-          commit('SET_TYPES', response.data.types.$values);
-          console.log('Types:', response.data.types.$values);
+          const transformedTypes = response.data.types.$values.map(item => ({
+            id: item.$id,
+            name: item.name
+          }));
+          commit('SET_TYPES', transformedTypes);
+          console.log('Transformed Types:', transformedTypes);
+        } else {
+          console.error('Unexpected response structure:', response.data);
+        }
+      } catch (error) {
+        console.error('Error fetching types:', error);
+      }
+    },
+    async fetchCategories({ commit, state }) {
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/Category`, {
+          headers: {
+            Authorization: `Bearer ${state.token}`
+          }
+        });
+
+        if (response.data && response.data.categories && response.data.categories.$values) {
+          const transformedCategories = response.data.categories.$values.map(item => ({
+            id: item.$id,
+            name: item.name
+          }));
+          commit('SET_CATEGORIES', transformedCategories);
+          console.log('Transformed Types:', transformedCategories);
         } else {
           console.error('Unexpected response structure:', response.data);
         }

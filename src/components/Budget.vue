@@ -18,8 +18,8 @@
             <v-select
               v-model="income.categoryId"
               :items="categories"
-              item-value="$id"
-              item-text="name"
+              item-value="id"
+              item-title="name"
               label="Category"
               variant="outlined"
               class="px-2"
@@ -28,8 +28,8 @@
             <v-select
               v-model="income.typeId"
               :items="types"
-              item-value="$id"
-              item-text="name"
+              item-value="id"
+              item-title="name"
               label="Type"
               variant="outlined"
               class="px-2"
@@ -59,12 +59,14 @@ export default {
         userId: '',
       },
     };
+
   },
   computed: {
     ...mapState({
       userId: state => state.userId,
       token: state => state.token,
-      types: state => state.types
+      types: state => state.types,
+      categories: state => state.categories
     })
   },
   methods: {
@@ -95,6 +97,9 @@ export default {
   },
   async mounted() {
     await this.$store.dispatch('fetchTypes').then(res => {
+      console.log(res);
+    });
+    await this.$store.dispatch('fetchCategories').then(res => {
       console.log(res);
     });
   }

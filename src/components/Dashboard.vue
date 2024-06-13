@@ -21,7 +21,7 @@
         </v-data-table>
       </v-col>
       <v-col cols="6">
-        <graph :items="incomes"></graph>
+        <graph :items="monthlyBudgets"></graph>
       </v-col>
       <div class="ml-6 font-weight-bold">Monthly Expenses</div>
     </v-row>
@@ -66,6 +66,7 @@ export default {
         { text: 'Description', value: 'description', sortable: true },
         { text: 'Category', value: 'categoryName', sortable: true },
         { text: 'Type', value: 'typeName', sortable: true },
+        { text: 'Price', value: 'price', sortable: true },
         { text: 'Action', value: 'action', sortable: false }
       ],
       expenseHeaders: [
@@ -73,6 +74,7 @@ export default {
         { text: 'Description', value: 'description', sortable: true },
         { text: 'Category', value: 'categoryName', sortable: true },
         { text: 'Type', value: 'typeName', sortable: true },
+        { text: 'Price', value: 'price', sortable: true },
         { text: 'Action', value: 'action', sortable: false }
       ]
     };
@@ -100,7 +102,7 @@ export default {
       await this.fetchBudgets();
       const startDate = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().split('T')[0];
       const endDate = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).toISOString().split('T')[0];
-      await this.fetchMonthlyBudgets({ startDate, endDate });
+      await this.fetchMonthlyBudgets({startDate, endDate});
     },
     async deleteBudget(id) {
       try {

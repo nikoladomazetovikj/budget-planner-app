@@ -14,7 +14,7 @@ ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
 export default {
   name: 'Graph',
-  components: {Bar},
+  components: { Bar },
   props: {
     items: {
       type: Array,
@@ -28,7 +28,12 @@ export default {
         datasets: [
           {
             label: 'Incomes',
-            backgroundColor: '#f87979',
+            backgroundColor: '#42A5F5',
+            data: []
+          },
+          {
+            label: 'Expenses',
+            backgroundColor: '#FFA726',
             data: []
           }
         ]
@@ -50,10 +55,16 @@ export default {
   methods: {
     updateChartData(items) {
       const labels = items.map(item => item.name);
-      const expenseData = items.map(item => item.Incomes);
+      const incomeData = items
+        .filter(item => item.typeName === 'Income')
+        .map(item => item.price);
+      const expenseData = items
+        .filter(item => item.typeName === 'Expense')
+        .map(item => item.price);
 
       this.chartData.labels = labels;
-      this.chartData.datasets[0].data = expenseData;
+      this.chartData.datasets[0].data = incomeData;
+      this.chartData.datasets[1].data = expenseData;
     }
   }
 }

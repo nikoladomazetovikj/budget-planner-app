@@ -2,19 +2,19 @@
   <v-card class="mt-16">
     <!-- App Bar code is commented out -->
   </v-card>
-  <div class="pa-10">
+  <div class="pa-12">
     <div class="d-flex align-center ml-3">
       <v-icon class="mt-n1">mdi-book-plus</v-icon>
       <h3 class="ml-2">Create Budget</h3>
     </div>
     <v-row>
       <v-col cols="12">
-        <v-card height="480">
+        <v-card height="600">
           <v-card-title class="text-center">Create A Budget Data</v-card-title>
           <v-form @submit.prevent="saveIncome">
-            <v-text-field v-model="income.name" variant="outlined" class="px-2" density="compact" label="Income Name"></v-text-field>
-            <v-textarea v-model="income.description" no-resize variant="outlined" class="px-2" density="compact" label="Income Description"></v-textarea>
-            <v-text-field v-model="income.price" variant="outlined" class="px-2" density="compact" label="Income Amount" type="number"></v-text-field>
+            <v-text-field v-model="income.name" variant="outlined" class="px-2" density="compact" label="Budget Name"></v-text-field>
+            <v-textarea v-model="income.description" no-resize variant="outlined" class="px-2" density="compact" label="Budget Description"></v-textarea>
+            <v-text-field v-model="income.price" variant="outlined" class="px-2" density="compact" label="Budget Amount" type="number"></v-text-field>
             <v-select
               v-model="income.categoryId"
               :items="categories"
@@ -45,7 +45,7 @@
 
 <script>
 import axios from 'axios';
-import { mapState, mapActions } from 'vuex';
+import { mapState } from 'vuex';
 
 export default {
   data() {
@@ -64,18 +64,20 @@ export default {
     };
   },
   computed: {
-    ...mapState(['user'])
+    ...mapState({
+      userId: state => state.user.id,
+      token: state => state.token
+    })
   },
   methods: {
-    ...mapActions(['fetchCategories', 'fetchTypes']),
     async fetchCategories() {
       try {
         const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/Category`, {
           headers: {
-            Authorization: `Bearer ${this.$store.state.token}`
+            Authorization: `Bearer ${this.token}`
           }
         });
-        this.categories = response.data;
+        this.categories = response.data.categories.$values;
       } catch (error) {
         console.error('Error fetching categories:', error);
       }
@@ -84,23 +86,22 @@ export default {
       try {
         const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/Type`, {
           headers: {
-            Authorization: `Bearer ${this.$store.state.token}`
+            Authorization: `Bearer ${this.token}`
           }
         });
-        this.types = response.data;
+        this.types = response.data.types.$values;
       } catch (error) {
         console.error('Error fetching types:', error);
       }
     },
     async saveIncome() {
       try {
-        this.income.userId = this.$store.state.user.id;
+        this.income.userId = this.userId;
         await axios.post(`${import.meta.env.VITE_BASE_URL}/api/Budget`, this.income, {
           headers: {
-            Authorization: `Bearer ${this.$store.state.token}`
+            Authorization: `Bearer ${this.token}`
           }
         });
-        this.loadIncomes();
         this.resetForm();
       } catch (error) {
         console.error('Error saving income:', error);
@@ -116,10 +117,7 @@ export default {
         price: 0,
         userId: ''
       };
-    },
-    editIncome(item) {
-      this.income = { ...item };
-    },
+    }
   },
   created() {
     this.fetchCategories();

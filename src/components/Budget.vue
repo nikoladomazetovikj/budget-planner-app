@@ -42,7 +42,6 @@
     </v-row>
   </div>
 </template>
-
 <script>
 import axios from 'axios';
 import { mapState } from 'vuex';
@@ -57,43 +56,18 @@ export default {
         categoryId: null,
         typeId: null,
         price: 0,
-        userId: ''
+        userId: '',
       },
-      categories: [],
-      types: []
     };
   },
   computed: {
     ...mapState({
       userId: state => state.userId,
-      token: state => state.token
+      token: state => state.token,
+      types: state => state.types
     })
   },
   methods: {
-    async fetchCategories() {
-      try {
-        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/Category`, {
-          headers: {
-            Authorization: `Bearer ${this.token}`
-          }
-        });
-        this.categories = response.data.categories.$values;
-      } catch (error) {
-        console.error('Error fetching categories:', error);
-      }
-    },
-    async fetchTypes() {
-      try {
-        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/Type`, {
-          headers: {
-            Authorization: `Bearer ${this.token}`
-          }
-        });
-        this.types = response.data.types.$values;
-      } catch (error) {
-        console.error('Error fetching types:', error);
-      }
-    },
     async saveIncome() {
       try {
         this.income.userId = this.userId;
@@ -119,12 +93,10 @@ export default {
       };
     }
   },
-  created() {
-    this.fetchCategories();
-    this.fetchTypes();
+  async mounted() {
+    await this.$store.dispatch('fetchTypes').then(res => {
+      console.log(res);
+    });
   }
 };
 </script>
-
-<style scoped>
-</style>

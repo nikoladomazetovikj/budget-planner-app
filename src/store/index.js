@@ -11,7 +11,8 @@ const store = createStore({
     token: null,
     userId: null,
     budgets: [],
-    monthlyBudgets: []
+    monthlyBudgets: [],
+    types:[],
   },
   mutations: {
     SET_CATEGORIES(state, payload) {
@@ -34,7 +35,10 @@ const store = createStore({
     },
     SET_MONTHLY_BUDGETS(state, budgets) {
       state.monthlyBudgets = budgets;
-    }
+    },
+    SET_TYPES(state, types) {
+      state.types = types;
+    },
   },
   actions: {
     updateScreenHeight({ commit }) {
@@ -87,6 +91,24 @@ const store = createStore({
         commit('SET_BUDGETS', response.data.budgets.$values);
       } catch (error) {
         console.error('Error fetching budgets:', error);
+      }
+    },
+    async fetchTypes({ commit, state }) {
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/Type`, {
+          headers: {
+            Authorization: `Bearer ${state.token}`
+          }
+        });
+
+        if (response.data && response.data.types && response.data.types.$values) {
+          commit('SET_TYPES', response.data.types.$values);
+          console.log('Types:', response.data.types.$values);
+        } else {
+          console.error('Unexpected response structure:', response.data);
+        }
+      } catch (error) {
+        console.error('Error fetching types:', error);
       }
     },
     async fetchMonthlyBudgets({ commit, state }, { startDate, endDate }) {

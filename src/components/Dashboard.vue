@@ -7,7 +7,7 @@
       <v-icon class="mt-n1">mdi-account</v-icon>
       <h3>Hello User, {{ userName }}</h3>
     </div>
-    <div class="ml-3 font-weight-bold">Daily Expenses</div>
+    <div class="ml-3 font-weight-bold">Monthly Incomes</div>
     <v-row>
       <v-col cols="6">
         <v-data-table height="500" :items="incomes" style="cursor:pointer">
@@ -17,6 +17,9 @@
               <td>{{ item.description }}</td>
               <td>{{ item.categoryName }}</td>
               <td>{{ item.typeName }}</td>
+              <td>
+                <v-btn color="red" @click="deleteBudget(item.$id)">Delete</v-btn>
+              </td>
             </tr>
           </template>
         </v-data-table>
@@ -36,6 +39,9 @@
               <td>{{ item.description }}</td>
               <td>{{ item.categoryName }}</td>
               <td>{{ item.typeName }}</td>
+              <td>
+                <v-btn color="red" @click="deleteBudget(item.$id)">Delete</v-btn>
+              </td>
             </tr>
           </template>
         </v-data-table>
@@ -74,7 +80,7 @@ export default {
       userName: 'userName'
     }),
     incomes() {
-      return this.budgets.filter(budget => budget.typeName === 'Income');
+      return this.monthlyBudgets.filter(budget => budget.typeName === 'Income');
     },
     expenses() {
       return this.monthlyBudgets.filter(budget => budget.typeName === 'Expense');
@@ -84,7 +90,21 @@ export default {
     ...mapActions(['fetchBudgets', 'fetchMonthlyBudgets', 'updateScreenHeight']),
     async loadBudgets() {
       await this.fetchBudgets();
-      await this.fetchMonthlyBudgets({ startDate: '2024-06-01', endDate: '2024-06-30' });
+      const startDate = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().split('T')[0];
+      const endDate = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).toISOString().split('T')[0];
+      await this.fetchMonthlyBudgets({ startDate, endDate });
+    },
+    async deleteBudget(id) {
+      try {
+        await axios.delete(`${import.meta.env.VITE_BASE_URL}/api/Budget/${id}`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.state.token}`
+          }
+        });
+        this.loadBudgets();
+      } catch (error) {
+        console.error('Error deleting budget:', error);
+      }
     }
   },
   created() {

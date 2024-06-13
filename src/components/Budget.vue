@@ -18,7 +18,7 @@
             <v-select
               v-model="income.categoryId"
               :items="categories"
-              item-value="id"
+              item-value="$id"
               item-text="name"
               label="Category"
               variant="outlined"
@@ -28,7 +28,7 @@
             <v-select
               v-model="income.typeId"
               :items="types"
-              item-value="id"
+              item-value="$id"
               item-text="name"
               label="Type"
               variant="outlined"

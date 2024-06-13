@@ -11,10 +11,9 @@
     <v-row>
       <v-col cols="6">
         <v-data-table
-          height="500"
-          :items="incomes"
           :headers="incomeHeaders"
-          style="cursor:pointer"
+          :items="incomes"
+          class="elevation-1"
         >
           <template v-slot:item.action="{ item }">
             <v-btn color="red" @click="deleteBudget(item.$id)">Delete</v-btn>
@@ -30,10 +29,9 @@
     <v-row>
       <v-col cols="6">
         <v-data-table
-          height="400"
-          :items="expenses"
           :headers="expenseHeaders"
-          style="cursor:pointer"
+          :items="expenses"
+          class="elevation-1"
         >
           <template v-slot:item.action="{ item }">
             <v-btn color="red" @click="deleteBudget(item.$id)">Delete</v-btn>
@@ -52,7 +50,7 @@
 <script>
 import { mapGetters, mapState, mapActions } from "vuex";
 import Graph from './Graph.vue';
-import Pie from "@/components/Pie.vue";
+import Pie from './Pie.vue';
 import axios from 'axios';
 
 export default {
@@ -64,17 +62,17 @@ export default {
   data() {
     return {
       incomeHeaders: [
-        { text: 'Name', value: 'name', sortable: true},
+        { text: 'Name', value: 'name', sortable: true },
         { text: 'Description', value: 'description', sortable: true },
         { text: 'Category', value: 'categoryName', sortable: true },
-        { text: 'Type', value: 'typeName' },
+        { text: 'Type', value: 'typeName', sortable: true },
         { text: 'Action', value: 'action', sortable: false }
       ],
       expenseHeaders: [
         { text: 'Name', value: 'name', sortable: true },
         { text: 'Description', value: 'description', sortable: true },
         { text: 'Category', value: 'categoryName', sortable: true },
-        { text: 'Type', value: 'typeName' },
+        { text: 'Type', value: 'typeName', sortable: true },
         { text: 'Action', value: 'action', sortable: false }
       ]
     };
